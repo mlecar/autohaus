@@ -1,0 +1,131 @@
+openapi: 3.0.3
+servers:
+  - url: 'http://localhost:8080'
+    description: 'Local'
+info:
+  version: 2.0.0
+  title: Autohaus Platorm
+  contact:
+    name: Github
+    url: 'https://github.com/mlecar/autohaus'
+
+paths:
+  /dealers/{dealer_id}/vehicles:
+    post:
+      summary: Upload a list of vehicles from a dealer
+      tags:
+        - Dealers
+      parameters:
+        - in: path
+          name: dealer_id
+          required: true
+          description: Dealer ID
+          schema:
+            type: integer
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              properties:
+                file:
+                  type: string
+                  format: binary
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VehiclesInput'
+      responses:
+        '204':
+          description: Vehicles successfully saved
+  /vehicles:
+    get:
+      summary: Return list of vehicles based on parameter
+      tags:
+        - Vehicles
+      parameters:
+        - in: query
+          name: dealer_id
+          required: false
+          description: Dealer ID
+          schema:
+            type: integer
+        - in: query
+          name: make
+          required: false
+          description: Vehicle maker
+          schema:
+            type: string
+        - in: query
+          name: model
+          required: false
+          description: Vehicle model
+          schema:
+            type: string
+        - in: query
+          name: color
+          required: false
+          description: Vehicle color
+          schema:
+            type: string
+        - in: query
+          name: year
+          required: false
+          description: Vehicle year
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Vehicles successfully saved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VehiclesSearchResponse'
+components:
+  schemas:
+    VehiclesInput:
+      type: array
+      items:
+        type: object
+        properties:
+          code:
+            type: string
+          make:
+            type: string
+          model:
+            type: string
+          kw:
+            type: integer
+          year:
+            type: integer
+          color:
+            type: string
+          price:
+            type: integer
+    VehiclesCSVInput:
+      type: string
+      example: >
+        code, make_model, power_in_ps, year, color, price
+        a, audi/a3, 172, 2015, gray, 17390
+    VehiclesSearchResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          vehicle_id:
+            type: integer
+          dealer_id:
+            type: integer
+          code:
+            type: string
+          make:
+            type: string
+          model:
+            type: string
+          kw:
+            type: integer
+          year:
+            type: integer
+          color:
+            type: string
+          price:
+            type: integer
