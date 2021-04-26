@@ -1,0 +1,11 @@
+version: '3'
+services:
+    anlis-db:
+        image: postgres
+        ports:
+          - 5432:5432
+        environment:
+        - POSTGRES_USER=$USER
+        - POSTGRES_DB=autohaus
+        - DB_HOST=docker.for.mac.host.internal
+        - POSTGRES_HOST_AUTH_METHOD=trust
