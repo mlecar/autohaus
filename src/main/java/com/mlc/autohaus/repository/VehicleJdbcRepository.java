@@ -17,7 +17,7 @@ class VehicleJdbcRepository implements VehicleRepository {
 
     @Override
     public void saveOrUpdate(List<Vehicle> vehicles) {
-        // saving in
+        // saving using batch, but TODO: assuming large dataset, but sequence is rotating.
         final var sql = " INSERT INTO Vehicles (dealer_id, code, make, model, kw, year, color, price, created_at) " +
                         " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                         " ON CONFLICT ON CONSTRAINT UK_dealer_id_code " +

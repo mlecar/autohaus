@@ -70,7 +70,7 @@ public class DealersControllerTest {
                 VehicleFromCsv.builder()
                         .code("1")
                         .color("black")
-                        .makeAndModel("mercedes/a 180")
+                        .makeModel(VehicleFromCsv.MakeModel.builder().make("mercedes").model("a 180").build())
                         .enginePowerInPS(123)
                         .year(2014)
                         .price(15950)

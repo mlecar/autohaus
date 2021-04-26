@@ -9,6 +9,9 @@ import lombok.Setter;
 @Builder
 @Getter
 @Setter
+/**
+ * Based on RFC https://tools.ietf.org/html/rfc7807
+ */
 public class ApiError {
     private final String type;
     private final String title;

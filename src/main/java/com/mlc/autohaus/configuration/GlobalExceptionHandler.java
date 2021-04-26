@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Clock;
@@ -31,6 +32,7 @@ public class GlobalExceptionHandler {
     private static final Map<Class<? extends Throwable>, String> exceptionTypes = new HashMap<>();
 
     static {
+        exceptionTypes.put(MissingServletRequestPartException.class, "urn:general:missing-request-part");
         exceptionTypes.put(MissingServletRequestParameterException.class, "urn:general:missing-request-parameter");
         exceptionTypes.put(MethodArgumentTypeMismatchException.class, "urn:general:method-argument-type-mismatch");
         exceptionTypes.put(HttpMessageNotReadableException.class, "urn:general:http-message-not-readable");
@@ -70,7 +72,7 @@ public class GlobalExceptionHandler {
         LOGGER.error("Error urn:uuid:{}", uuid, ex);
 
         final var apiError = ApiError.builder()
-                .title(ex.getMessage())
+                .title("Please, contact with support. Error: ["+ex.getMessage()+"]")
                 .timestamp(Clock.systemUTC().millis())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .type(type)
@@ -81,7 +83,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
     }
 
-    @ExceptionHandler(value = { MissingServletRequestParameterException.class, HttpMessageNotReadableException.class})
+    @ExceptionHandler(value = { MissingServletRequestParameterException.class, MissingServletRequestPartException.class, HttpMessageNotReadableException.class})
     public ResponseEntity<?> badRequest(final Exception ex, final HttpServletRequest request) {
         final var apiError = ApiError.builder()
                 .title(ex.getMessage())
@@ -89,7 +91,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST.value())
                 .type(exceptionTypes.get(ex.getClass()))
                 .instance("urn:uuid:" + UUID.randomUUID())
-                .path(request.getContextPath())
+                .path(request.getRequestURI())
                 .build();
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
@@ -103,7 +105,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_ACCEPTABLE.value())
                 .type(exceptionTypes.get(ex.getClass()))
                 .instance("urn:uuid:" + UUID.randomUUID())
-                .path(request.getContextPath())
+                .path(request.getRequestURI())
                 .build();
 
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(apiError);
@@ -117,7 +119,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
                 .type(exceptionTypes.get(ex.getClass()))
                 .instance("urn:uuid:" + UUID.randomUUID())
-                .path(request.getContextPath())
+                .path(request.getRequestURI())
                 .build();
 
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(apiError);

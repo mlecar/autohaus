@@ -53,15 +53,15 @@ public class DealersService {
                 .multiply(new BigDecimal(ONE_HORSE_POWER_IN_KW))
                 .setScale(0, RoundingMode.DOWN);
 
-        var makeAndModel = vehicleFromCsv.getMakeAndModel().split("/");
         return Vehicle.builder()
                         .dealerId(dealerId)
                         .code(vehicleFromCsv.getCode())
-                        .color(vehicleFromCsv.getColor())
+                        .color(vehicleFromCsv.getColor().trim().equals("") ? "Not specified" : vehicleFromCsv.getColor().trim())
                         .kw(enginePowerInKw.intValue())
-                        .make(makeAndModel[0])
-                        .model(makeAndModel[1])
+                        .make(vehicleFromCsv.getMakeModel().getMake())
+                        .model(vehicleFromCsv.getMakeModel().getModel())
                         .price(vehicleFromCsv.getPrice())
+                        .year(vehicleFromCsv.getYear())
                         .createdAt(clock.instant())
                         .build();
     }
