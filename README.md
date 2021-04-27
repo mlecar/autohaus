@@ -8,7 +8,6 @@ This is a first implementation of a platform for selling vehicles.
 
 - https://github.com/mlecar/autohaus/blob/main/src/main/resources/swagger.yaml
 
-
 ### Unit Tests
 Unit tests are implemented in folder
 ```
