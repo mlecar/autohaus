@@ -9,6 +9,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,6 +40,7 @@ public class GlobalExceptionHandler {
         exceptionTypes.put(MethodArgumentNotValidException.class, "urn:general:argument-not-valid");
         exceptionTypes.put(HttpMediaTypeNotAcceptableException.class, "urn:general:http-media-type-not-acceptable");
         exceptionTypes.put(HttpMediaTypeNotSupportedException.class, "urn:general:http-media-type-not-supported");
+        exceptionTypes.put(HttpRequestMethodNotSupportedException.class, "urn:general:method-not-allowed");
     }
 
     @ExceptionHandler(value = { DataAccessException.class })
@@ -109,6 +111,20 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(apiError);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<?> notAcceptable(final HttpRequestMethodNotSupportedException ex, final HttpServletRequest request) {
+        final var apiError = ApiError.builder()
+                .title(ex.getMessage())
+                .timestamp(Clock.systemUTC().millis())
+                .status(HttpStatus.METHOD_NOT_ALLOWED.value())
+                .type(exceptionTypes.get(ex.getClass()))
+                .instance("urn:uuid:" + UUID.randomUUID())
+                .path(request.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(apiError);
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)

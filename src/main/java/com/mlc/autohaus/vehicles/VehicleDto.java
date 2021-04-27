@@ -1,4 +1,4 @@
-package com.mlc.autohaus.dealers;
+package com.mlc.autohaus.vehicles;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
@@ -12,6 +12,8 @@ import lombok.Setter;
 @Data
 @Setter(AccessLevel.NONE)
 public class VehicleDto {
+    private Long vehicleId;
+    private Long dealerId;
     private String code;
     private String make;
     private String model;

@@ -1,4 +1,4 @@
-package com.mlc.autohaus.repository;
+package com.mlc.autohaus.model;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +8,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import javax.sql.DataSource;
 
 public class RunningPostgresDatabase {
-    private static Logger logger = LoggerFactory.getLogger(RunningPostgresDatabase.class);
+    private static final Logger logger = LoggerFactory.getLogger(RunningPostgresDatabase.class);
     
     private static PostgreSQLContainer postgres;
 

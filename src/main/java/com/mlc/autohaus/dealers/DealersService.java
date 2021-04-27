@@ -1,7 +1,7 @@
 package com.mlc.autohaus.dealers;
 
-import com.mlc.autohaus.repository.VehicleRepository;
-import com.mlc.autohaus.repository.Vehicle;
+import com.mlc.autohaus.dealers.repository.VehicleWriterRepository;
+import com.mlc.autohaus.model.Vehicle;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -11,31 +11,31 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class DealersService {
+class DealersService {
 
     private static final Double ONE_HORSE_POWER_IN_KW = 0.73549875;
 
-    private final VehicleRepository vehicleRepository;
+    private final VehicleWriterRepository vehicleWriterRepository;
 
     private final Clock clock;
 
-    public DealersService(VehicleRepository vehicleRepository, Clock clock) {
-        this.vehicleRepository = vehicleRepository;
+    DealersService(VehicleWriterRepository vehicleWriterRepository, Clock clock) {
+        this.vehicleWriterRepository = vehicleWriterRepository;
         this.clock = clock;
     }
 
-    void createFromCsv(Long dealerId, List<VehicleFromCsv> vehicleFromCsvList) {
-        var vehicles = vehicleFromCsvList.stream().map(k -> createVehiclesFrom(dealerId, k)).collect(Collectors.toList());
-        vehicleRepository.saveOrUpdate(vehicles);
+    void createFromCsv(Long dealerId, List<DealersVehicleFromCsv> dealersVehicleFromCsvList) {
+        var vehicles = dealersVehicleFromCsvList.stream().map(k -> createVehiclesFrom(dealerId, k)).collect(Collectors.toList());
+        vehicleWriterRepository.saveOrUpdate(vehicles);
     }
 
-    void create(Long dealerId, List<VehicleDto> vehicleDtoList) {
-        var vehicles = createVehiclesFrom(dealerId, vehicleDtoList);
-        vehicleRepository.saveOrUpdate(vehicles);
+    void create(Long dealerId, List<DealersVehicleDto> dealersVehicleDtoList) {
+        var vehicles = createVehiclesFrom(dealerId, dealersVehicleDtoList);
+        vehicleWriterRepository.saveOrUpdate(vehicles);
     }
 
-    List<Vehicle> createVehiclesFrom(Long dealerId, List<VehicleDto> vehicleDtoList) {
-        return vehicleDtoList.stream().map(k ->
+    List<Vehicle> createVehiclesFrom(Long dealerId, List<DealersVehicleDto> dealersVehicleDtoList) {
+        return dealersVehicleDtoList.stream().map(k ->
                 Vehicle.builder()
                         .dealerId(dealerId)
                         .code(k.getCode())
@@ -48,20 +48,20 @@ public class DealersService {
                         .build()).collect(Collectors.toList());
     }
 
-    Vehicle createVehiclesFrom(Long dealerId, VehicleFromCsv vehicleFromCsv) {
-        var enginePowerInKw = new BigDecimal(vehicleFromCsv.getEnginePowerInPS())
+    Vehicle createVehiclesFrom(Long dealerId, DealersVehicleFromCsv dealersVehicleFromCsv) {
+        var enginePowerInKw = new BigDecimal(dealersVehicleFromCsv.getEnginePowerInPS())
                 .multiply(new BigDecimal(ONE_HORSE_POWER_IN_KW))
                 .setScale(0, RoundingMode.DOWN);
 
         return Vehicle.builder()
                         .dealerId(dealerId)
-                        .code(vehicleFromCsv.getCode())
-                        .color(vehicleFromCsv.getColor().trim().equals("") ? "Not specified" : vehicleFromCsv.getColor().trim())
+                        .code(dealersVehicleFromCsv.getCode())
+                        .color(dealersVehicleFromCsv.getColor().trim().equals("") ? "Not specified" : dealersVehicleFromCsv.getColor().trim())
                         .kw(enginePowerInKw.intValue())
-                        .make(vehicleFromCsv.getMakeModel().getMake())
-                        .model(vehicleFromCsv.getMakeModel().getModel())
-                        .price(vehicleFromCsv.getPrice())
-                        .year(vehicleFromCsv.getYear())
+                        .make(dealersVehicleFromCsv.getMakeModel().getMake())
+                        .model(dealersVehicleFromCsv.getMakeModel().getModel())
+                        .price(dealersVehicleFromCsv.getPrice())
+                        .year(dealersVehicleFromCsv.getYear())
                         .createdAt(clock.instant())
                         .build();
     }

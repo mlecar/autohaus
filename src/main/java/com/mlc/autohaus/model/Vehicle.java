@@ -1,4 +1,4 @@
-package com.mlc.autohaus.repository;
+package com.mlc.autohaus.model;
 
 import lombok.Builder;
 import lombok.NonNull;
@@ -13,6 +13,7 @@ import java.time.Instant;
 @Builder
 @Table("vehicles")
 public class Vehicle {
+
     @Id
     @With
     Long vehicleId;
@@ -25,7 +26,7 @@ public class Vehicle {
     @NonNull String color;
     @NonNull Integer price;
     // TODO: provider should be stored to identify the source
-    String provider;
+    // String provider;
     @NonNull Instant createdAt;
     Instant updatedAt;
 }

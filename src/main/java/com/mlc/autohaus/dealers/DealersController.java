@@ -21,23 +21,25 @@ import java.util.List;
 public class DealersController {
 
     private final DealersService dealersService;
-    private final DealerCSVReader dealerCSVReader;
+    private final DealersCSVReader dealersCSVReader;
 
-    public DealersController(DealersService dealersService, DealerCSVReader dealerCSVReader){
+    public DealersController(DealersService dealersService, DealersCSVReader dealersCSVReader){
         this.dealersService = dealersService;
-        this.dealerCSVReader = dealerCSVReader;
+        this.dealersCSVReader = dealersCSVReader;
     }
 
     @PostMapping(value = "/dealers/{dealer_id}/vehicles", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> addVehicles(@PathVariable("dealer_id") Long dealerId, @RequestParam("file") MultipartFile multipartFile) {
-        final var vehicleDtoList = dealerCSVReader.readCSV(multipartFile.getResource());
+        // TODO: provider is important to keep track of changes, but not storing at the moment
+        final var vehicleDtoList = dealersCSVReader.readCSV(multipartFile.getResource());
         dealersService.createFromCsv(dealerId, vehicleDtoList);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PostMapping(value = "/dealers/{dealer_id}/vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addVehicles(@PathVariable("dealer_id") Long dealerId, @RequestBody @Valid List<VehicleDto> vehicleDtoList) {
-        dealersService.create(dealerId, vehicleDtoList);
+    public ResponseEntity<?> addVehicles(@PathVariable("dealer_id") Long dealerId, @RequestBody @Valid List<DealersVehicleDto> dealersVehicleDtoList) {
+        // TODO: provider is important to keep track of changes, but not storing at the moment
+        dealersService.create(dealerId, dealersVehicleDtoList);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

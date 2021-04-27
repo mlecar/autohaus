@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VehicleFromCsv {
+public class DealersVehicleFromCsv {
     @CsvBindByName(column = "code", required = true)
     private String code;
 

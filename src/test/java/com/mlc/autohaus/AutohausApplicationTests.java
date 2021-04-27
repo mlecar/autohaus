@@ -1,6 +1,6 @@
 package com.mlc.autohaus;
 
-import com.mlc.autohaus.repository.RunningPostgresDatabase;
+import com.mlc.autohaus.model.RunningPostgresDatabase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;

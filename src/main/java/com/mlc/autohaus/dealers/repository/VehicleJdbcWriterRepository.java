@@ -1,5 +1,6 @@
-package com.mlc.autohaus.repository;
+package com.mlc.autohaus.dealers.repository;
 
+import com.mlc.autohaus.model.Vehicle;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -7,21 +8,21 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
-class VehicleJdbcRepository implements VehicleRepository {
+class VehicleJdbcWriterRepository implements VehicleWriterRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public VehicleJdbcRepository(JdbcTemplate jdbcTemplate) {
+    public VehicleJdbcWriterRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public void saveOrUpdate(List<Vehicle> vehicles) {
-        // saving using batch, but TODO: assuming large dataset, but sequence is rotating.
+        // saving using batch, but TODO: assuming large dataset, but vehicles ids are discarded.
         final var sql = " INSERT INTO Vehicles (dealer_id, code, make, model, kw, year, color, price, created_at) " +
                         " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) " +
                         " ON CONFLICT ON CONSTRAINT UK_dealer_id_code " +
-                        " DO uPDATE " +
+                        " DO UPDATE " +
                         "      SET make = EXCLUDED.make, " +
                         "          model = EXCLUDED.model, " +
                         "          kw = EXCLUDED.kw, " +

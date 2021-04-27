@@ -10,14 +10,14 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 @Component
-class DealerCSVReader {
+class DealersCSVReader {
 
-    List<VehicleFromCsv> readCSV(Resource resource) {
+    List<DealersVehicleFromCsv> readCSV(Resource resource) {
         try (InputStream inputStream = resource.getInputStream()) {
             // TODO: comma separated value, but some regions use semicolon as delimiter
-            // TODO: how big are the files from dealers? If huge, an iterator can be used
-            return new CsvToBeanBuilder<VehicleFromCsv>(new InputStreamReader(inputStream))
-                    .withType(VehicleFromCsv.class)
+            // TODO: how big are the files from dealers? If huge, it should be handled in a proper way
+            return new CsvToBeanBuilder<DealersVehicleFromCsv>(new InputStreamReader(inputStream))
+                    .withType(DealersVehicleFromCsv.class)
                     .withThrowExceptions(false)
                     .build()
                     .parse();

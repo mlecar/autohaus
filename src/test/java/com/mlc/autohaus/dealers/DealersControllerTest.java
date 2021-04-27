@@ -27,7 +27,7 @@ public class DealersControllerTest {
     private DealersService dealersService;
 
     @MockBean
-    private DealerCSVReader dealerCSVReader;
+    private DealersCSVReader dealersCSVReader;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -36,7 +36,7 @@ public class DealersControllerTest {
     public void givenVehiclesListingInputAsJson_whenPost_thenSuccess() throws Exception {
         var dealerId = 1L;
         var vehiclesListingInput =
-                ImmutableList.of(VehicleDto.builder()
+                ImmutableList.of(DealersVehicleDto.builder()
                         .code("123")
                         .color("red")
                         .make("audi")
@@ -67,16 +67,16 @@ public class DealersControllerTest {
         );
 
         var vehiclesFromCsv =
-                VehicleFromCsv.builder()
+                DealersVehicleFromCsv.builder()
                         .code("1")
                         .color("black")
-                        .makeModel(VehicleFromCsv.MakeModel.builder().make("mercedes").model("a 180").build())
+                        .makeModel(DealersVehicleFromCsv.MakeModel.builder().make("mercedes").model("a 180").build())
                         .enginePowerInPS(123)
                         .year(2014)
                         .price(15950)
                         .build();
 
-        willReturn(ImmutableList.of(vehiclesFromCsv)).given(dealerCSVReader).readCSV(mockedFile.getResource());
+        willReturn(ImmutableList.of(vehiclesFromCsv)).given(dealersCSVReader).readCSV(mockedFile.getResource());
         willDoNothing().given(dealersService).createFromCsv(dealerId, ImmutableList.of(vehiclesFromCsv));
 
         this.mockMvc
