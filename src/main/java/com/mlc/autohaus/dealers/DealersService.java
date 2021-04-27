@@ -45,6 +45,7 @@ class DealersService {
                         .model(k.getModel())
                         .price(k.getPrice())
                         .createdAt(clock.instant())
+                        .year(k.getYear())
                         .build()).collect(Collectors.toList());
     }
 

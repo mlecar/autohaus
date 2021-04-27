@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
         LOGGER.error("Database error urn:uuid:{}", uuid, ex);
 
         final var apiError = ApiError.builder()
-                .title("Request failed")
+                .title("Request failed. Please, contact support.")
                 .timestamp(Clock.systemUTC().millis())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .type(type)
