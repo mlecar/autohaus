@@ -8,23 +8,46 @@ This is a first implementation of a platform for selling vehicles.
 
 - https://github.com/mlecar/autohaus/blob/main/src/main/resources/swagger.yaml
 
-## How to?
+
+### Unit Tests
+Unit tests are implemented in folder
+```
+src/test/java
+```
+
+It can be executed as:
+```
+mvn clean install
+```
+
+### Integration Tests
+Integration tests are implemented in folder
+```
+src/integration-test/java
+```
+
+It can be executed using **integration-tests** profile as example below:
+```
+mvn clean install -Pintegration-tests
+```
+
+## How-to?
 ### Step 1 - Start database with docker-compose
 ```
 /utilities/docker-compose up
 ```
 
-### Step 2 - Compile it with
+### Step 2 - Compile code with
 ```
 $ ./mvnw clean install
 ```
 
-### Step 3 - Start it
+### Step 3 - Start application
 ```
 $ java -jar target/autohaus-1.0-SNAPSHOT.jar
 ```
 
-### Step 4 - Test it
+### Step 4 - Time to test it
 ```
 POST /dealers/123/vehicles
 Content-type:multipart/form-data
@@ -71,28 +94,6 @@ curl -v -XGET http://localhost:8080/vehicles | python -m json.tool
 GET /vehicles?make=bmw
 
 curl -v -XGET http://localhost:8080/vehicles?make=bmw | python -m json.tool
-```
-
-### Unit Tests
-Unit tests are implemented in folder
-```
-src/test/java
-```
-
-It can be executed as:
-```
-mvn clean install
-```
-
-### Integration Tests
-Integration tests are implemented in folder
-```
-src/integration-test/java
-```
-
-It can be executed using **integration-tests** profile as example below:
-```
-mvn clean install -Pintegration-tests
 ```
 
 ### Problems that I found
