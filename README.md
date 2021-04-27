@@ -9,7 +9,7 @@ This is a first implementation of a platform for selling vehicles.
 - https://github.com/mlecar/autohaus/blob/main/src/main/resources/swagger.yaml
 
 ## How to?
-### Step 1 - Setup database
+### Step 1 - Start database with docker-compose
 ```
 /utilities/docker-compose up
 ```
