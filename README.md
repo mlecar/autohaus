@@ -20,7 +20,7 @@ mvn clean install
 ```
 
 ### Integration Tests
-Integration tests are implemented in folder
+Some Integration tests are implemented in folder
 ```
 src/integration-test/java
 ```
