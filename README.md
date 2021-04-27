@@ -116,6 +116,7 @@ mvn clean install -Pintegration-tests
 - basic validation for searched parameters
 - allow multiple values for one parameter
 - semi-colon support
+- proxy /upload_csv and vehicle_listing to the new ones created
 
 ### What is missing for production
 - More unit tests
