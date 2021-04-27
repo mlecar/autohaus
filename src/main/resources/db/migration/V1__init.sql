@@ -11,6 +11,12 @@ CREATE TABLE VEHICLES (
     created_at TIMESTAMPTZ NOT NULL DEFAULT (now() at time zone 'utc'),
     updated_at TIMESTAMPTZ
 );
-create UNIQUE INDEX IX_dealer_id_code ON VEHICLES (dealer_id, code);
+create UNIQUE INDEX IDX_dealer_id_code ON VEHICLES (dealer_id, code);
 
-ALTER TABLE VEHICLES ADD CONSTRAINT UK_dealer_id_code UNIQUE USING INDEX IX_dealer_id_code;
+CREATE INDEX IDX_dealer_id ON VEHICLES(dealer_id);
+CREATE INDEX IDX_make ON VEHICLES(make);
+CREATE INDEX IDX_model ON VEHICLES(model);
+CREATE INDEX IDX_year ON VEHICLES(year);
+CREATE INDEX IDX_color ON VEHICLES(color);
+
+ALTER TABLE VEHICLES ADD CONSTRAINT UK_dealer_id_code UNIQUE USING INDEX IDX_dealer_id_code;
