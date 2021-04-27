@@ -95,14 +95,27 @@ It can be executed using **integration-tests** profile as example below:
 mvn clean install -Pintegration-tests
 ```
 
+### Problems that I found
+- /upload_csv/{dealer_id} and /vehicles_listing are not good
+- No clear how Provider is informed. Will we receive it in header?
+- Tried to use querydsl with spring-data-jdbc to provide a better search, but no success.
+
 ### What is missing?
 - No validation on search criteria on GET /vehicles
 - Search by multiple values for one parameter, like ?make=bmw,audi
-- comma separated values are there, but maybe semi-colon is also needed
-- 2 step for uploading files is needed? Uploading and the confirming changes?
+- comma separated values are there, but maybe semi-colon is also needed where parsing csv
+- 2 steps for uploading files is needed? For example, uploading and then confirming changes
 - Provider identification would be useful for tracking updates, metrics
 - how big are the files/dataset from dealers?
 - prices were considered as integers
+- Dealers are not validated
+- Should csv processing fail when a column is missing?
+- Historical data for uploaded listings? 
+
+### If I had more time
+- basic validation for searched parameters
+- allow multiple values for one parameter
+- semi-colon support
 
 ### What is missing for production
 - More unit tests
