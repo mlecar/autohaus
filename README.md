@@ -122,6 +122,8 @@ curl -v -XGET http://localhost:8080/vehicles?make=bmw | python -m json.tool
 ### What is missing for production
 - More unit tests
 - More Integration tests
+- ci/cd scripts
+- infrastructure scripts
 - Metrics and monitoring
 - Caching
 - Password encryption with KMS for example
