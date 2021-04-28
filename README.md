@@ -117,6 +117,7 @@ curl -v -XGET http://localhost:8080/vehicles?make=bmw | python -m json.tool
 - allow multiple values for one parameter
 - semi-colon support
 - proxy /upload_csv and vehicle_listing to the new ones created
+- Pagination and Sorting for vehicles
 
 ### What is missing for production
 - More unit tests
