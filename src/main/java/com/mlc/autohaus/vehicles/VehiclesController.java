@@ -1,6 +1,5 @@
 package com.mlc.autohaus.vehicles;
 
-import com.mlc.autohaus.vehicles.repository.VehicleReaderRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.annotation.Validated;
