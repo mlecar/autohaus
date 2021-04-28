@@ -19,7 +19,7 @@ class VehicleJdbcReaderRepository implements VehicleReaderRepository {
     }
 
     @Override
-    public List<Vehicle> findAll(Map<String, String>searchCriteria) {
+    public List<Vehicle> findAll(Map<String, String> searchCriteria) {
         var sql = " SELECT vehicle_id, dealer_id, code, make, model, kw, year, color, price, created_at " +
                   "   FROM Vehicles ";
         if ( !searchCriteria.isEmpty() ){
@@ -43,7 +43,7 @@ class VehicleJdbcReaderRepository implements VehicleReaderRepository {
         return vehicles;
     }
 
-    String buildSqlFromSearchCriteria(Map<String, String> searchCriteria){
+    String buildSqlFromSearchCriteria(Map<String, String> searchCriteria) {
         var textColumns = Arrays.asList("make", "model", "color", "code");
         StringBuilder sqlToAppend = new StringBuilder(" WHERE ");
         for (Map.Entry<String, String> sc : searchCriteria.entrySet()){
